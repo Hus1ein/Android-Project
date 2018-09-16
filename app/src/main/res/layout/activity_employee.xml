@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.selma.constructions.activity.EmployeeActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_employee_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="7dp">
+
+        <LinearLayout
+            android:id="@+id/activity_employee_linear_layout"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/circle_with_border">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/post_row_company_photo"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/employee"
+                android:padding="10dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_employee_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/activity_employee_linear_layout"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Haris Hodzic"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/activity_employee_relative_layout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/ic_location"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="15dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/activity_employee_relative_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="22dp"
+        android:layout_toEndOf="@+id/imageView5"
+        android:gravity="center"
+        android:text="@string/address"
+        android:textColor="@color/blue"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/activity_employee_location"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_marginLeft="85dp"
+        android:layout_toEndOf="@+id/textView13"
+        android:gravity="center"
+        android:text="Ilidza, BiH"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="85dp"
+        android:layout_toRightOf="@+id/textView13" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_below="@+id/imageView5"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_phone"
+        android:layout_alignLeft="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/imageView5"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/imageView6"
+        android:gravity="center"
+        android:text="@string/phone_number"
+        android:textColor="@color/blue"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/imageView6" />
+
+    <TextView
+        android:id="@+id/activity_employee_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignStart="@+id/activity_employee_location"
+        android:layout_alignTop="@+id/textView15"
+        android:gravity="center"
+        android:text="062961404"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/activity_employee_location" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_below="@+id/imageView6"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_rank"
+        android:layout_alignLeft="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/imageView6"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/imageView5"
+        android:gravity="center"
+        android:text="@string/rank"
+        android:textColor="@color/blue"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/activity_employee_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignStart="@+id/activity_employee_location"
+        android:layout_alignTop="@+id/textView17"
+        android:gravity="center"
+        android:text="Direktor"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/activity_employee_location" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_below="@+id/imageView7"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_jmb"
+        android:layout_alignLeft="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/imageView7"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/imageView5"
+        android:gravity="center"
+        android:text="@string/social_number"
+        android:textColor="@color/blue"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/activity_employee_social_number"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignStart="@+id/activity_employee_location"
+        android:layout_alignTop="@+id/textView19"
+        android:text="18101993143125"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/activity_employee_location" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_below="@+id/imageView8"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_email"
+        android:layout_alignLeft="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/imageView8"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/imageView5"
+        android:gravity="center"
+        android:text="@string/e_mail"
+        android:textColor="@color/blue"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/activity_employee_email"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignStart="@+id/activity_employee_location"
+        android:layout_alignTop="@+id/textView21"
+        android:gravity="center"
+        android:text="haris@gmail.com"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/activity_employee_location" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_below="@+id/textView21"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_birthday"
+        android:layout_alignLeft="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView21"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/imageView5"
+        android:gravity="center"
+        android:text="@string/birthday"
+        android:textColor="@color/blue"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/activity_employee_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignStart="@+id/activity_employee_location"
+        android:layout_alignTop="@+id/textView23"
+        android:gravity="center"
+        android:text="19.10.1993"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/activity_employee_location" />
+
+
+</RelativeLayout>

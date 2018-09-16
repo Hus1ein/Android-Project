@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.selma.constructions.activity.AddEmployeesActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_add_employees_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_add_employees_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="0dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/activity_add_employees_floating_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="35dp"
+            android:layout_marginEnd="31dp"
+            android:layout_marginRight="31dp"
+            android:clickable="false"
+            android:onClick="addEmployees"
+            android:visibility="gone"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:srcCompat="@drawable/ic_add" />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/activity_add_employees_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="37dp"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/job_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="7dp"
+    app:cardElevation="8dp">
+
+    <RelativeLayout
+        android:id="@+id/employee_row_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f2f2f2">
+
+        <LinearLayout
+            android:id="@+id/employee_row_linear_layout"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/circle_with_border">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/employee_row_photo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="10dp"
+                android:src="@drawable/employee" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/employee_row_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/employee_row_linear_layout"
+            android:layout_toEndOf="@+id/employee_row_linear_layout"
+            android:layout_toRightOf="@+id/employee_row_linear_layout"
+            android:gravity="center"
+            android:text="Haris Hodzic"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/employee_row_name"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/employee_row_linear_layout"
+            android:layout_toRightOf="@+id/employee_row_linear_layout"
+            app:srcCompat="@drawable/ic_phone" />
+
+        <TextView
+            android:id="@+id/employee_row_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/employee_row_name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_toRightOf="@+id/imageView3"
+            android:gravity="center"
+            android:text="062961404"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/employee_row_work_hours"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/text_view_shape_blue"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="8"
+            android:textColor="@android:color/black" />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

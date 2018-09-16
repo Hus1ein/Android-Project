@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity"
+    android:background="@color/colorPrimaryDark"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        >
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:nextFocusForward="@+id/et_password"
+                android:singleLine="true"
+                android:textColor="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:nextFocusForward="@+id/et_repeat_password"
+                android:singleLine="true"
+                android:textColor="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_repeat_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@id/et_repeat_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/repeat_password"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
