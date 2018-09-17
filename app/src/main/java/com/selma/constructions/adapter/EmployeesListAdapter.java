@@ -17,6 +17,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
     private List<Employee> employees;
     private EmployeesListAdapter.OnEmployeeClick onEmployeeClick;
+    private EmployeesListAdapter.OnWorkHoursTextViewClick onWorkHoursTextViewClick;
 
     public EmployeesListAdapter(List<Employee> employees)
     {
@@ -69,6 +70,16 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
                     }
                 }
             });
+
+            employeeWorkHours.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(EmployeesListAdapter.this.onWorkHoursTextViewClick != null) {
+
+                        EmployeesListAdapter.this.onWorkHoursTextViewClick.onClickWorkHoursTextView(employees.get(getAdapterPosition()).getId());
+                    }
+                }
+            });
         }
     }
 
@@ -76,9 +87,18 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
         void onClick(long employeeId, RelativeLayout relativeLayout);
     }
 
+    public interface OnWorkHoursTextViewClick {
+        void onClickWorkHoursTextView(long employeeId);
+    }
+
     public void setOnEmployeeClick(EmployeesListAdapter.OnEmployeeClick onEmployeeClick)
     {
         this.onEmployeeClick = onEmployeeClick;
+    }
+
+    public void setOnWorkHoursTextViewClick(EmployeesListAdapter.OnWorkHoursTextViewClick onWorkHoursTextViewClick)
+    {
+        this.onWorkHoursTextViewClick = onWorkHoursTextViewClick;
     }
 
 

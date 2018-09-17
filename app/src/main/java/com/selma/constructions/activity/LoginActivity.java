@@ -20,14 +20,12 @@ import org.json.simple.JSONObject;
 public class LoginActivity extends BaseActivityForObjects {
 
     public static final String CURRENT_USER = "current_user";
-    TextInputLayout emailTextInputLayout;
-    TextInputLayout passwordTextInputLayout;
-    EditText emailEditText;
-    EditText passwordEditText;
-    Button loginButton;
-    Button registerButton;
-    ProgressBar progressBar;
-    LinearLayout mainLayout;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private Button loginButton;
+    private Button registerButton;
+    private ProgressBar progressBar;
+    private LinearLayout mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +33,6 @@ public class LoginActivity extends BaseActivityForObjects {
         setContentView(R.layout.activity_login);
         setTitle(R.string.login);
 
-        emailTextInputLayout = findViewById(R.id.til_email);
-        passwordTextInputLayout = findViewById(R.id.til_password);
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
         loginButton = findViewById(R.id.btn_login);
@@ -69,7 +65,7 @@ public class LoginActivity extends BaseActivityForObjects {
             progressBar.setVisibility(View.VISIBLE);
             mainLayout.setVisibility(View.GONE);
 
-            String url = "";  // TODO create the URL
+            String url = "https://www.google.com";  // TODO create the URL
             GetDataAsObject getData = new GetDataAsObject(this);
             getData.execute(url);
 
@@ -107,6 +103,8 @@ public class LoginActivity extends BaseActivityForObjects {
                 user.setFirstName(result.get("Ime").toString());
                 user.setLastName(result.get("Prezime").toString());
                 user.setId((Long) result.get("Id"));
+                user.setAddress(result.get("Adresa").toString());
+                user.setPhone(result.get("KontaktTelefon").toString());
 
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(CURRENT_USER, user);
@@ -119,7 +117,7 @@ public class LoginActivity extends BaseActivityForObjects {
 
             progressBar.setVisibility(View.GONE);
             mainLayout.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "Wrong e-mail or password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Unexpected Error, Try again later", Toast.LENGTH_LONG).show();
         }
 
     }

@@ -50,21 +50,10 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
         getSupportActionBar().setTitle("Svi uposlenici");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mainLayout = findViewById(R.id.activity_add_employees_main_layout);
+        mainLayout = findViewById(R.id.activity_employees_list_main_layout);
         progressBar = findViewById(R.id.activity_employees_list_progress_bar);
 
         getAllEmployees();
-    }
-
-    private void createRecyclerView()
-    {
-        RecyclerView employeesRecyclerView = findViewById(R.id.activity_employees_list_recycler_view);
-        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(employees);
-        final LinearLayoutManager employeesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        employeesRecyclerView.setLayoutManager(employeesLayoutManager);
-        employeesRecyclerView.setAdapter(employeesListAdapter);
-        employeesListAdapter.setOnEmployeeClick(this);
-
     }
 
     private void getAllEmployees(){
@@ -83,6 +72,46 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
         String url = "";  //TODO: create url.
         getDataAsArray.execute(url);
+    }
+
+    @Override
+    public void getDataFromAsyncTask(JSONArray result) {
+        employees = new ArrayList<>();
+
+        if (result != null) {
+            for (int n = 0; n < result.size(); n++) {
+                JSONObject object = (JSONObject) result.get(n);
+                Employee employee = new Employee();
+                employee.setId((Long)object.get("Id"));
+                employee.setName(object.get("Ime").toString() + " " + object.get("Prezime").toString());
+                employee.setRank(object.get("Zvanje").toString());
+                employee.setSocialNumber(object.get("JMBG").toString());
+                employee.setDate((object.get("DatumRodjenja").toString()));
+                employee.setEmail(object.get("Email").toString());
+                employee.setPhone(object.get("KontaktTelefon").toString());
+                employees.add(employee);
+            }
+
+            progressBar.setVisibility(View.GONE);
+            mainLayout.setVisibility(View.VISIBLE);
+
+            createRecyclerView();
+
+        }else {
+            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    private void createRecyclerView()
+    {
+        RecyclerView employeesRecyclerView = findViewById(R.id.activity_employees_list_recycler_view);
+        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(employees);
+        final LinearLayoutManager employeesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        employeesRecyclerView.setLayoutManager(employeesLayoutManager);
+        employeesRecyclerView.setAdapter(employeesListAdapter);
+        employeesListAdapter.setOnEmployeeClick(this);
+
     }
 
     @Override
@@ -116,34 +145,5 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
 
     public void addEmployees(View view) {
         startActivity(new Intent(this, AddEmployeesActivity.class));
-    }
-
-    @Override
-    public void getDataFromAsyncTask(JSONArray result) {
-        employees = new ArrayList<>();
-
-        if (result != null) {
-            for (int n = 0; n < result.size(); n++) {
-                JSONObject object = (JSONObject) result.get(n);
-                Employee employee = new Employee();
-                employee.setId((Long)object.get("Id"));
-                employee.setName(object.get("Ime").toString() + " " + object.get("Prezime").toString());
-                employee.setRank(object.get("Zvanje").toString());
-                employee.setSocialNumber(object.get("JMBG").toString());
-                employee.setDate((object.get("DatumRodjenja").toString()));
-                employee.setEmail(object.get("Email").toString());
-                employee.setPhone(object.get("KontaktTelefon").toString());
-                employees.add(employee);
-            }
-
-            progressBar.setVisibility(View.GONE);
-            mainLayout.setVisibility(View.VISIBLE);
-
-            createRecyclerView();
-
-        }else {
-            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-            finish();
-        }
     }
 }

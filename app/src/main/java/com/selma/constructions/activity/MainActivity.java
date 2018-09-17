@@ -40,32 +40,12 @@ public class MainActivity extends BaseActivityForArrays {
         getSupportActionBar().setTitle("Svi Projekti");
 
         currentUser = (User)getIntent().getSerializableExtra(LoginActivity.CURRENT_USER);
+
         mainLayout = findViewById(R.id.activity_main_linear_layout);
         progressBar = findViewById(R.id.activity_main_progress_bar);
 
         getAllProjects();
 
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-
-        Bundle bundle1 = new Bundle();
-        Bundle bundle2 = new Bundle();
-
-        bundle1.putSerializable(PROJECTS, activeProjects);
-        bundle2.putSerializable(PROJECTS, inactiveProjects);
-
-        ProjectsListFragment activeProjectsFragment = new ProjectsListFragment();
-        ProjectsListFragment inactiveProjectsFragment = new ProjectsListFragment();
-
-        activeProjectsFragment.setArguments(bundle1);
-        inactiveProjectsFragment.setArguments(bundle2);
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(activeProjectsFragment, "Aktivni projekti");
-        adapter.addFragment(inactiveProjectsFragment, "Ne aktivni projekti");
-
-        viewPager.setAdapter(adapter);
     }
 
     private void getAllProjects(){
@@ -105,11 +85,15 @@ public class MainActivity extends BaseActivityForArrays {
 
     @Override
     public void getDataFromAsyncTask(JSONArray result) {
-        List<Project> allProjects = new ArrayList<>();
+
+        activeProjects = new ArrayList<>();
+        inactiveProjects = new ArrayList<>();
 
         if (result != null) {
             for (int n = 0; n < result.size(); n++) {
+
                 JSONObject object = (JSONObject) result.get(n);
+
                 Project project = new Project();
                 project.setId((Long)object.get("Id"));
                 project.setStatus((Boolean) object.get("status"));
@@ -118,13 +102,6 @@ public class MainActivity extends BaseActivityForArrays {
                 project.setContractDate((object.get("DatumUgovora").toString()));
                 project.setEndProjectDate(object.get("KrajProjekta").toString());
                 project.setStartProjectDate(object.get("PocetakProjekta").toString());
-                allProjects.add(project);
-            }
-
-            activeProjects = new ArrayList<>();
-            inactiveProjects = new ArrayList<>();
-
-            for (Project project : allProjects){
 
                 if (project.getStatus())
                     activeProjects.add(project);
@@ -147,6 +124,27 @@ public class MainActivity extends BaseActivityForArrays {
             finish();
         }
 
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+
+        Bundle bundle1 = new Bundle();
+        Bundle bundle2 = new Bundle();
+
+        bundle1.putSerializable(PROJECTS, activeProjects);
+        bundle2.putSerializable(PROJECTS, inactiveProjects);
+
+        ProjectsListFragment activeProjectsFragment = new ProjectsListFragment();
+        ProjectsListFragment inactiveProjectsFragment = new ProjectsListFragment();
+
+        activeProjectsFragment.setArguments(bundle1);
+        inactiveProjectsFragment.setArguments(bundle2);
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(activeProjectsFragment, "Aktivni projekti");
+        adapter.addFragment(inactiveProjectsFragment, "Ne aktivni projekti");
+
+        viewPager.setAdapter(adapter);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

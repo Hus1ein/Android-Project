@@ -29,7 +29,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddEmployeesActivity extends BaseActivityForArrays implements EmployeesListAdapter.OnEmployeeClick{
+public class AddEmployeesActivity extends BaseActivityForArrays implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
 
     private List<Long> selectedEmployees;
     private List<Employee> allEmployees;
@@ -47,21 +47,10 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
         mainLayout = findViewById(R.id.activity_add_employees_main_layout);
         progressBar = findViewById(R.id.activity_employees_list_progress_bar);
 
-        getAllEmployees();
-
         getSupportActionBar().setTitle("Dodaj uposlenika");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    }
-
-    private void createRecyclerView()
-    {
-        RecyclerView employeesRecyclerView = findViewById(R.id.activity_add_employees_recycler_view);
-        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(allEmployees);
-        final LinearLayoutManager employeesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        employeesRecyclerView.setLayoutManager(employeesLayoutManager);
-        employeesRecyclerView.setAdapter(employeesListAdapter);
-        employeesListAdapter.setOnEmployeeClick(this);
+        getAllEmployees();
 
     }
 
@@ -82,58 +71,6 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
         String url = "";  //TODO: create url.
         getDataAsArray.execute(url);
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(long selectedEmployeeId, RelativeLayout relativeLayout) {
-
-
-
-        for(Long employeeId : selectedEmployees){
-            if (employeeId == selectedEmployeeId){
-                selectedEmployees.remove(selectedEmployeeId);
-                relativeLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
-
-                if (selectedEmployees.size() == 0)
-                    addSelectedEmployeesButton.setVisibility(View.GONE);
-                else
-                    addSelectedEmployeesButton.setVisibility(View.VISIBLE);
-                return;
-            }
-
-        }
-
-        selectedEmployees.add(selectedEmployeeId);
-        relativeLayout.setBackgroundColor(Color.parseColor("#cceeff"));
-        addSelectedEmployeesButton.setVisibility(View.VISIBLE);
-
-    }
-
-    public void addEmployees(View view) {
-
-        progressBar.setVisibility(View.VISIBLE);
-        mainLayout.setVisibility(View.GONE);
-        PostData postData = new PostData(this);
-        String url = "";  //TODO: create url.
-        postData.execute(url);
-
-        finish();
-
-    }
-
-    public void closeActivity() {
-        finish();
     }
 
     @Override
@@ -163,5 +100,75 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    private void createRecyclerView()
+    {
+        RecyclerView employeesRecyclerView = findViewById(R.id.activity_add_employees_recycler_view);
+        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(allEmployees);
+        final LinearLayoutManager employeesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        employeesRecyclerView.setLayoutManager(employeesLayoutManager);
+        employeesRecyclerView.setAdapter(employeesListAdapter);
+        employeesListAdapter.setOnEmployeeClick(this);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void addEmployees(View view) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        mainLayout.setVisibility(View.GONE);
+        PostData postData = new PostData(this);
+        String url = "";  //TODO: create url.
+        postData.execute(url);
+
+        finish();
+
+    }
+
+    public void closeActivity() {
+        finish();
+    }
+
+    @Override
+    public void onClick(long selectedEmployeeId, RelativeLayout relativeLayout) {
+
+
+
+        for(Long employeeId : selectedEmployees){
+            if (employeeId == selectedEmployeeId){
+                selectedEmployees.remove(selectedEmployeeId);
+                relativeLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
+
+                if (selectedEmployees.size() == 0)
+                    addSelectedEmployeesButton.setVisibility(View.GONE);
+                else
+                    addSelectedEmployeesButton.setVisibility(View.VISIBLE);
+                return;
+            }
+
+        }
+
+        selectedEmployees.add(selectedEmployeeId);
+        relativeLayout.setBackgroundColor(Color.parseColor("#cceeff"));
+        addSelectedEmployeesButton.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onClickWorkHoursTextView(long employeeId) {
+
+        
+
     }
 }

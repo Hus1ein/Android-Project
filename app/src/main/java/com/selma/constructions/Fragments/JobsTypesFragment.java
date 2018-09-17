@@ -68,7 +68,8 @@ public class JobsTypesFragment extends Fragment implements JobsTypesAdapter.OnJo
         list.add(new JobTypeRow(6, "Type6", 1));
         return list;
     }
-*/
+    */
+
     @Override
     public void onClick(long jobId) {
 

@@ -3,14 +3,24 @@ package com.selma.constructions;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.selma.constructions.activity.BaseActivityForObjects;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class GetDataAsObject extends AsyncTask<String, Integer, JSONObject> {
 
-    //private String value;
     private AppCompatActivity activity;
 
     public GetDataAsObject(AppCompatActivity activity) {
@@ -22,7 +32,8 @@ public class GetDataAsObject extends AsyncTask<String, Integer, JSONObject> {
     protected JSONObject doInBackground(String... strings) {
 
         JSONObject jsonObject = null;
-        /*URL url = null;
+        URL url = null;
+        Log.d("hello", "sad");
         try {
             url = new URL(strings[0]);
             HttpsURLConnection myConnection = (HttpsURLConnection) url.openConnection();
@@ -30,17 +41,11 @@ public class GetDataAsObject extends AsyncTask<String, Integer, JSONObject> {
                 InputStream responseBody = myConnection.getInputStream();
                 JSONParser jsonParser = new JSONParser();
                 jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(responseBody, "UTF-8"));
-            } else {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
             }
             myConnection.disconnect();
-        } catch (MalformedURLException e) {
+        } catch (IOException | ParseException | RuntimeException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
+        }
         return jsonObject;
     }
 

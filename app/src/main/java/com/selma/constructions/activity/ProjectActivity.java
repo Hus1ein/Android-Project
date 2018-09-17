@@ -49,34 +49,11 @@ public class ProjectActivity extends BaseActivityForArrays {
         getSupportActionBar().setTitle(currentProject.getName().toUpperCase());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mainLayout = findViewById(R.id.activity_main_linear_layout);
-        progressBar = findViewById(R.id.activity_main_progress_bar);
+        mainLayout = findViewById(R.id.activity_project_main_linear_layout);
+        progressBar = findViewById(R.id.activity_project_progress_bar);
 
         getAllJobsTypes(currentProject.getId());
 
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-
-
-
-        Bundle bundle1 = new Bundle();
-        Bundle bundle2 = new Bundle();
-
-        bundle1.putSerializable(CURRENT_PROJECT, currentProject);
-        bundle2.putSerializable(ALL_TYPES, allTypes);
-
-        ProjectInfoFragment projectInfoFragment = new ProjectInfoFragment();
-        JobsTypesFragment jobsTypesFragment = new JobsTypesFragment();
-
-        projectInfoFragment.setArguments(bundle1);
-        jobsTypesFragment.setArguments(bundle2);
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(projectInfoFragment, "O Projektu");
-        adapter.addFragment(jobsTypesFragment, "Tipova poslaova");
-
-        viewPager.setAdapter(adapter);
     }
 
     private void getAllJobsTypes(long projectId){
@@ -87,17 +64,6 @@ public class ProjectActivity extends BaseActivityForArrays {
         String url = "";  //TODO: create url.
         getDataAsArray.execute(url);
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -127,6 +93,39 @@ public class ProjectActivity extends BaseActivityForArrays {
             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+
+        Bundle bundle1 = new Bundle();
+        Bundle bundle2 = new Bundle();
+
+        bundle1.putSerializable(CURRENT_PROJECT, currentProject);
+        bundle2.putSerializable(ALL_TYPES, allTypes);
+
+        ProjectInfoFragment projectInfoFragment = new ProjectInfoFragment();
+        JobsTypesFragment jobsTypesFragment = new JobsTypesFragment();
+
+        projectInfoFragment.setArguments(bundle1);
+        jobsTypesFragment.setArguments(bundle2);
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(projectInfoFragment, "O Projektu");
+        adapter.addFragment(jobsTypesFragment, "Tipova poslaova");
+
+        viewPager.setAdapter(adapter);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

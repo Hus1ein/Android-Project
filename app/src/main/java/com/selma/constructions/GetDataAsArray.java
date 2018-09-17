@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.selma.constructions.activity.BaseActivityForArrays;
-import com.selma.constructions.activity.BaseActivityForObjects;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -22,7 +21,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class GetDataAsArray extends AsyncTask<String, Integer, JSONArray> {
 
-    //private String value;
     private AppCompatActivity activity;
 
     public GetDataAsArray(AppCompatActivity activity) {
@@ -35,24 +33,18 @@ public class GetDataAsArray extends AsyncTask<String, Integer, JSONArray> {
 
         JSONArray jsonArray = null;
         URL url = null;
-        /*try {
+        try {
             url = new URL(strings[0]);
             HttpsURLConnection myConnection = (HttpsURLConnection) url.openConnection();
             if (myConnection.getResponseCode() == 200) {
                 InputStream responseBody = myConnection.getInputStream();
                 JSONParser jsonParser = new JSONParser();
                 jsonArray = (JSONArray) jsonParser.parse(new InputStreamReader(responseBody, "UTF-8"));
-            } else {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
             }
             myConnection.disconnect();
-        } catch (MalformedURLException e) {
+        } catch (IOException | ParseException | RuntimeException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
+        }
         return jsonArray;
     }
 

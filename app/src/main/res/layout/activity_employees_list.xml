@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.selma.constructions.activity.EmployeesListActivity">
     <RelativeLayout
-        android:id="@+id/activity_add_employees_main_layout"
+        android:id="@+id/activity_employees_list_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
