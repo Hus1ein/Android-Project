@@ -1,8 +1,12 @@
 package com.selma.constructions.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +16,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -19,6 +26,7 @@ import android.widget.Toast;
 
 import com.selma.constructions.Fragments.JobsTypesFragment;
 import com.selma.constructions.GetDataAsArray;
+import com.selma.constructions.PostData;
 import com.selma.constructions.R;
 import com.selma.constructions.adapter.EmployeesListAdapter;
 import com.selma.constructions.adapter.ProjectsAdapter;
@@ -32,13 +40,14 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeesListActivity extends BaseActivityForArrays implements EmployeesListAdapter.OnEmployeeClick{
+public class EmployeesListActivity extends BaseActivityForAsyncTask implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
 
     private long jobTypeId;
     private List<Employee> employees;
     public static final String EMPLOYEE = "employee";
     private RelativeLayout mainLayout;
     private ProgressBar progressBar;
+    private EmployeesListAdapter employeesListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,25 +66,16 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
     }
 
     private void getAllEmployees(){
-        /*employees = new ArrayList<>();
-        employees.add(new Employee(0, "Hussain Abd", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        employees.add(new Employee(1, "Hussain Abd1", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        employees.add(new Employee(2, "Hussain Abd2", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        employees.add(new Employee(3, "Hussain Abd3", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        employees.add(new Employee(4, "Hussain Abd4", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        employees.add(new Employee(5, "Hussain Abd5", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        employees.add(new Employee(6, "Hussain Abd6", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        return employees;*/
 
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
-        String url = "";  //TODO: create url.
-        getDataAsArray.execute(url);
+        String url = "http://www.mocky.io/v2/5bdd58253200005a008c625f";  //TODO: change url.
+        getDataAsArray.execute(url, jobTypeId + "");
     }
 
     @Override
-    public void getDataFromAsyncTask(JSONArray result) {
+    public void getDataAsArray(JSONArray result) {
         employees = new ArrayList<>();
 
         if (result != null) {
@@ -89,6 +89,8 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
                 employee.setDate((object.get("DatumRodjenja").toString()));
                 employee.setEmail(object.get("Email").toString());
                 employee.setPhone(object.get("KontaktTelefon").toString());
+                employee.setAddress(object.get("Adresa").toString());
+                employee.setWorkHours(Integer.parseInt(object.get("RadniSati").toString()));
                 employees.add(employee);
             }
 
@@ -106,11 +108,12 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
     private void createRecyclerView()
     {
         RecyclerView employeesRecyclerView = findViewById(R.id.activity_employees_list_recycler_view);
-        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(employees);
+        employeesListAdapter = new EmployeesListAdapter(employees, false);
         final LinearLayoutManager employeesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         employeesRecyclerView.setLayoutManager(employeesLayoutManager);
         employeesRecyclerView.setAdapter(employeesListAdapter);
         employeesListAdapter.setOnEmployeeClick(this);
+        employeesListAdapter.setOnWorkHoursTextViewClick(this);
 
     }
 
@@ -145,5 +148,69 @@ public class EmployeesListActivity extends BaseActivityForArrays implements Empl
 
     public void addEmployees(View view) {
         startActivity(new Intent(this, AddEmployeesActivity.class));
+    }
+
+    @Override
+    public void onClickWorkHoursTextView(final long employeeId) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Evidentiranje utrošenih radnih sati radnika");
+        final EditText input = new EditText(this);
+        input.setSingleLine(false);
+        input.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+        input.setPadding(50, 5, 50, 5);
+        input.setBackground(null);
+        input.setText("");
+        input.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        builder.setView(input);
+        // Set up the buttons:
+        // 1) save:
+        builder.setPositiveButton(R.string.main_save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (Employee employee : employees){
+
+                    if (employee.getId() == employeeId) {
+                        int workHours;
+                        try {
+                            workHours = Integer.parseInt(input.getText().toString());
+                        } catch (NumberFormatException e) {
+                            return;
+                        }
+                        employee.setWorkHours(workHours);
+                        JSONObject data = new JSONObject();
+                        data.put("employeeId", employeeId);
+                        data.put("radniSati", workHours);
+                        PostData postData = new PostData(EmployeesListActivity.this, data);
+                        String url = "http://www.mocky.io/v2/5bdd58253200005a008c625f";  //TODO: change url.
+                        postData.execute(url);
+                        employeesListAdapter.notifyDataSetChanged();
+                        break;
+                    }
+
+                }
+            }
+        });
+        // 2) cancel:
+        builder.setNegativeButton(R.string.main_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void afterSendData(Boolean result){
+        if (result) {
+            Toast.makeText(this, "updated Successfully", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error while saving", Toast.LENGTH_LONG).show();
+        }
     }
 }

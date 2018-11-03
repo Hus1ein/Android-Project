@@ -29,7 +29,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddEmployeesActivity extends BaseActivityForArrays implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
+public class AddEmployeesActivity extends BaseActivityForAsyncTask implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
 
     private List<Long> selectedEmployees;
     private List<Employee> allEmployees;
@@ -45,7 +45,7 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
         selectedEmployees = new ArrayList<>();
         addSelectedEmployeesButton = findViewById(R.id.activity_add_employees_floating_button);
         mainLayout = findViewById(R.id.activity_add_employees_main_layout);
-        progressBar = findViewById(R.id.activity_employees_list_progress_bar);
+        progressBar = findViewById(R.id.activity_add_employees_progress_bar);
 
         getSupportActionBar().setTitle("Dodaj uposlenika");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,26 +55,17 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
     }
 
     private void getAllEmployees(){
-        /*List<Employee> list = new ArrayList<>();
-        list.add(new Employee(0, "Hussain Abd", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        list.add(new Employee(1, "Hussain Abd1", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        list.add(new Employee(2, "Hussain Abd2", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        list.add(new Employee(3, "Hussain Abd3", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        list.add(new Employee(4, "Hussain Abd4", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        list.add(new Employee(5, "Hussain Abd5", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        list.add(new Employee(6, "Hussain Abd6", "dsa", "1808876123432", "18.09.1980", "Ilidza, Sarajevo", "hussain.abd121@gmail.com", "062961404"));
-        return list;*/
 
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
-        String url = "";  //TODO: create url.
-        getDataAsArray.execute(url);
+        String url = "http://www.mocky.io/v2/5bdcc934330000382881369e";  //TODO: change url.
+        getDataAsArray.execute(url, "-1");
 
     }
 
     @Override
-    public void getDataFromAsyncTask(JSONArray result) {
+    public void getDataAsArray(JSONArray result) {
         allEmployees = new ArrayList<>();
 
         if (result != null) {
@@ -105,7 +96,7 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
     private void createRecyclerView()
     {
         RecyclerView employeesRecyclerView = findViewById(R.id.activity_add_employees_recycler_view);
-        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(allEmployees);
+        EmployeesListAdapter employeesListAdapter = new EmployeesListAdapter(allEmployees, true);
         final LinearLayoutManager employeesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         employeesRecyclerView.setLayoutManager(employeesLayoutManager);
         employeesRecyclerView.setAdapter(employeesListAdapter);
@@ -128,9 +119,9 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
 
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
-        PostData postData = new PostData(this);
-        String url = "";  //TODO: create url.
-        postData.execute(url);
+        //PostData postData = new PostData(this);
+        String url = "";  //TODO: change url.
+        //postData.execute(url);
 
         finish();
 
@@ -167,8 +158,6 @@ public class AddEmployeesActivity extends BaseActivityForArrays implements Emplo
 
     @Override
     public void onClickWorkHoursTextView(long employeeId) {
-
-        
 
     }
 }

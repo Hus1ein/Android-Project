@@ -13,6 +13,7 @@ public class Employee implements Serializable {
     private String email;
     private String phone;//
     private String imageUrl;
+    private int workHours;
 
     public Employee() {}
 
@@ -97,5 +98,13 @@ public class Employee implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getWorkHours() {
+        return workHours;
+    }
+
+    public void setWorkHours(int workHours) {
+        this.workHours = workHours;
     }
 }

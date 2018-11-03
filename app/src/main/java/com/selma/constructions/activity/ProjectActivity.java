@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -26,11 +24,10 @@ import com.selma.constructions.model.Project;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectActivity extends BaseActivityForArrays {
+public class ProjectActivity extends BaseActivityForAsyncTask {
 
     public static final String CURRENT_PROJECT = "current_project";
     public static final String ALL_TYPES = "all_types";
@@ -61,13 +58,13 @@ public class ProjectActivity extends BaseActivityForArrays {
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
-        String url = "";  //TODO: create url.
-        getDataAsArray.execute(url);
+        String url = "http://www.mocky.io/v2/5bdcc2e93300003828813696";  //TODO: create url.
+        getDataAsArray.execute(url, currentProject.getId() + "");
 
     }
 
     @Override
-    public void getDataFromAsyncTask(JSONArray result) {
+    public void getDataAsArray(JSONArray result) {
         allTypes = new ArrayList<>();
 
         if (result != null) {
@@ -76,7 +73,7 @@ public class ProjectActivity extends BaseActivityForArrays {
                 JobTypeRow typeRow = new JobTypeRow();
                 typeRow.setId((Long)object.get("TipPoslaId"));
                 typeRow.setName(object.get("TipPoslaNaziv").toString());
-                typeRow.setCount((Integer) object.get("count"));
+                typeRow.setCount(Integer.parseInt(object.get("count").toString()));
                 allTypes.add(typeRow);
             }
 
@@ -92,6 +89,15 @@ public class ProjectActivity extends BaseActivityForArrays {
         }else {
             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
             finish();
+        }
+    }
+
+    @Override
+    public void afterSendData(Boolean result) {
+        if (result) {
+            Toast.makeText(this, "updated Successfully", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error while saving", Toast.LENGTH_LONG).show();
         }
     }
 

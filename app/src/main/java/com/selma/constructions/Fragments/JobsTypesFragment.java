@@ -54,21 +54,6 @@ public class JobsTypesFragment extends Fragment implements JobsTypesAdapter.OnJo
 
     }
 
-    /*private List<JobTypeRow> getAllJobTypes(){
-
-        //TODO : use currentProjectId to get all jobTypes.
-
-        List<JobTypeRow> list = new ArrayList<>();
-        list.add(new JobTypeRow(0, "Type0", 10));
-        list.add(new JobTypeRow(1, "Type1", 12));
-        list.add(new JobTypeRow(2, "Type2", 20));
-        list.add(new JobTypeRow(3, "Type3", 111));
-        list.add(new JobTypeRow(4, "Type4", 10));
-        list.add(new JobTypeRow(5, "Type5", 9));
-        list.add(new JobTypeRow(6, "Type6", 1));
-        return list;
-    }
-    */
 
     @Override
     public void onClick(long jobId) {

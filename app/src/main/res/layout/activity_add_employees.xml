@@ -32,7 +32,7 @@
             android:onClick="addEmployees"
             android:visibility="gone"
             app:backgroundTint="@color/colorPrimaryDark"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_submit" />
 
     </RelativeLayout>
 

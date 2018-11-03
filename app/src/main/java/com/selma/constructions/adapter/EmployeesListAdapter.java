@@ -2,6 +2,7 @@ package com.selma.constructions.adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,12 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
     private List<Employee> employees;
     private EmployeesListAdapter.OnEmployeeClick onEmployeeClick;
     private EmployeesListAdapter.OnWorkHoursTextViewClick onWorkHoursTextViewClick;
+    private boolean showWorkHours;
 
-    public EmployeesListAdapter(List<Employee> employees)
+    public EmployeesListAdapter(List<Employee> employees, boolean isAddEmployeesActivity)
     {
         this.employees = employees;
+        this.showWorkHours = isAddEmployeesActivity;
     }
     @Override
     public EmployeesListAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,10 +34,14 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
     @Override
     public void onBindViewHolder(EmployeesListAdapter.MyHolder holder, final int position) {
-
+        Log.d("username", employees.get(position).getWorkHours() + "");
         holder.employeeName.setText(employees.get(position).getName());
         holder.employeePhoneNum.setText(employees.get(position).getPhone());
-        holder.employeeWorkHours.setText("8");
+        if (showWorkHours){
+            holder.employeeWorkHours.setVisibility(View.GONE);
+        }else {
+            holder.employeeWorkHours.setText(employees.get(position).getWorkHours() + "");
+        }
 
     }
 

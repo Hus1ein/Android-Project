@@ -1,14 +1,21 @@
 package com.selma.constructions.activity;
 
+import android.content.res.Configuration;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.selma.constructions.Fragments.ProjectsListFragment;
@@ -23,7 +30,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivityForArrays {
+public class MainActivity extends BaseActivityForAsyncTask {
 
     private ArrayList<Project> activeProjects;
     private ArrayList<Project> inactiveProjects;
@@ -31,6 +38,8 @@ public class MainActivity extends BaseActivityForArrays {
     private User currentUser;
     private LinearLayout mainLayout;
     private ProgressBar progressBar;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,56 +48,37 @@ public class MainActivity extends BaseActivityForArrays {
 
         getSupportActionBar().setTitle("Svi Projekti");
 
+        createDrawerLayout();
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        //////////////////////////////////////////////////////////////////////
+
         currentUser = (User)getIntent().getSerializableExtra(LoginActivity.CURRENT_USER);
 
         mainLayout = findViewById(R.id.activity_main_linear_layout);
         progressBar = findViewById(R.id.activity_main_progress_bar);
 
+        setUserDetails();
         getAllProjects();
 
     }
 
     private void getAllProjects(){
-        /*List<Project> projects = new ArrayList<>();
-        projects.add(new Project(0, "First project", "Sarajevo, BiH", "20.09.2018", true, "asd"));
-        projects.add(new Project(1, "Second project", "Tuzla, BiH", "20.09.2018", true, "asd"));
-        projects.add(new Project(2, "Third project", "Zenica, BiH", "20.09.2018", false, "asd"));
-        projects.add(new Project(3, "Fourth project", "Zagreb, Croatia", "20.09.2018", true, "asd"));
-        projects.add(new Project(4, "Fifth project", "Split, Croatia", "20.09.2018", false, "asd"));
-        projects.add(new Project(5, "Sixth project", "Sarajevo, BiH", "20.09.2018", true, "asd"));
-        projects.add(new Project(6, "First project", "Sarajevo, BiH", "20.09.2018", true, "asd"));
-        projects.add(new Project(7, "Second project", "Tuzla, BiH", "20.09.2018", true, "asd"));
-        projects.add(new Project(8, "Third project", "Zenica, BiH", "20.09.2018", false, "asd"));
-        projects.add(new Project(9, "Fourth project", "Zagreb, Croatia", "20.09.2018", true, "asd"));
-        projects.add(new Project(10, "Fifth project", "Split, Croatia", "20.09.2018", false, "asd"));
-        projects.add(new Project(11, "Sixth project", "Sarajevo, BiH", "20.09.2018", true, "asd"));
-
-        activeProjects = new ArrayList<>();
-        inactiveProjects = new ArrayList<>();
-
-        for (Project project : projects){
-
-            if (project.getStatus())
-                activeProjects.add(project);
-            else
-                inactiveProjects.add(project);
-
-        }
-
-        return projects;*/
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
-        String url = "";  //TODO: create url.
-        getDataAsArray.execute(url);
+        String url = "http://www.mocky.io/v2/5bdcc66c3300007a2381369a";  //TODO: change url.
+        getDataAsArray.execute(url, currentUser.getId() + "");
     }
 
     @Override
-    public void getDataFromAsyncTask(JSONArray result) {
+    public void getDataAsArray(JSONArray result) {
 
         activeProjects = new ArrayList<>();
         inactiveProjects = new ArrayList<>();
-
+        Log.d("username", result.toString());
         if (result != null) {
             for (int n = 0; n < result.size(); n++) {
 
@@ -96,12 +86,13 @@ public class MainActivity extends BaseActivityForArrays {
 
                 Project project = new Project();
                 project.setId((Long)object.get("Id"));
-                project.setStatus((Boolean) object.get("status"));
+                project.setStatus((Boolean) object.get("Status"));
                 project.setName(object.get("Naziv").toString());
                 project.setLocation(object.get("Lokacija").toString());
                 project.setContractDate((object.get("DatumUgovora").toString()));
                 project.setEndProjectDate(object.get("KrajProjekta").toString());
                 project.setStartProjectDate(object.get("PocetakProjekta").toString());
+                project.setDescription(object.get("Opis").toString());
 
                 if (project.getStatus())
                     activeProjects.add(project);
@@ -125,6 +116,77 @@ public class MainActivity extends BaseActivityForArrays {
         }
 
     }
+    private void createDrawerLayout()
+    {
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        // Setting Listener to DrawerLayout using ActionBarDrawerToggle.
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer){
+            public void onDrawerClosed(View drawerView)
+            {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
+            public void onDrawerOpened(View drawerView)
+            {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
+
+        };
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        if(actionBarDrawerToggle.onOptionsItemSelected(menuItem))
+            return true;
+
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void setUserDetails(){
+
+        TextView username = findViewById(R.id.activity_main_user_name);
+        TextView address = findViewById(R.id.activity_main_location);
+        TextView mobileNumber = findViewById(R.id.activity_main_phone_number);
+        TextView profession = findViewById(R.id.activity_main_profession);
+        TextView email = findViewById(R.id.activity_main_email);
+        TextView birthday = findViewById(R.id.activity_main_birthday);
+
+        username.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+        address.setText(currentUser.getAddress());
+        mobileNumber.setText(currentUser.getPhone());
+        profession.setText(currentUser.getProfession());
+        email.setText(currentUser.getEmail());
+        birthday.setText(currentUser.getBirthDate());
+
+    }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    // This function will be call when we call onDrawerClosed or onDrawerOpen.
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     private void setupViewPager(ViewPager viewPager) {
 
@@ -145,6 +207,10 @@ public class MainActivity extends BaseActivityForArrays {
         adapter.addFragment(inactiveProjectsFragment, "Ne aktivni projekti");
 
         viewPager.setAdapter(adapter);
+    }
+
+    public void showAllEmployees(View view) {
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

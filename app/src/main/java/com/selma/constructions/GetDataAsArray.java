@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.selma.constructions.activity.BaseActivityForArrays;
+import com.selma.constructions.activity.BaseActivityForAsyncTask;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -34,8 +36,8 @@ public class GetDataAsArray extends AsyncTask<String, Integer, JSONArray> {
         JSONArray jsonArray = null;
         URL url = null;
         try {
-            url = new URL(strings[0]);
-            HttpsURLConnection myConnection = (HttpsURLConnection) url.openConnection();
+            url = new URL(strings[0] + "?id=" + strings[1]);
+            HttpURLConnection myConnection = (HttpURLConnection) url.openConnection();
             if (myConnection.getResponseCode() == 200) {
                 InputStream responseBody = myConnection.getInputStream();
                 JSONParser jsonParser = new JSONParser();
@@ -61,7 +63,7 @@ public class GetDataAsArray extends AsyncTask<String, Integer, JSONArray> {
     @Override
     protected void onPostExecute(JSONArray value) {
         super.onPostExecute(value);
-        ((BaseActivityForArrays) activity).getDataFromAsyncTask(value);
+        ((BaseActivityForAsyncTask) activity).getDataAsArray(value);
     }
 }
 

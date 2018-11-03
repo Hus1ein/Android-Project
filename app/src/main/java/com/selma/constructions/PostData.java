@@ -4,45 +4,54 @@ package com.selma.constructions;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
-import com.selma.constructions.activity.AddEmployeesActivity;
-import com.selma.constructions.activity.BaseActivityForObjects;
+import com.selma.constructions.activity.BaseActivityForAsyncTask;
 
 import org.json.simple.JSONObject;
 
-public class PostData extends AsyncTask<String, Integer, JSONObject> {
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class PostData extends AsyncTask<String, Integer, Boolean> {
 
     //private String value;
     private AppCompatActivity activity;
+    private JSONObject postData;
 
-    public PostData(AppCompatActivity activity) {
+    public PostData(AppCompatActivity activity, JSONObject postData) {
         this.activity = activity;
+        this.postData = postData;
     }
 
 
     @Override
-    protected JSONObject doInBackground(String... strings) {
+    protected Boolean doInBackground(String... strings) {
 
         JSONObject jsonObject = null;
-        /*URL url = null;
+        URL url = null;
         try {
             url = new URL(strings[0]);
-            HttpsURLConnection myConnection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection myConnection = (HttpURLConnection) url.openConnection();
+            myConnection.setDoInput(true);
+            myConnection.setDoOutput(true);
+            myConnection.setRequestProperty("Content-Type", "application/json");
+            myConnection.setRequestMethod("POST");
+
+            if (this.postData != null) {
+                OutputStreamWriter writer = new OutputStreamWriter(myConnection.getOutputStream());
+                writer.write(postData.toString());
+                writer.flush();
+            }
+
             if (myConnection.getResponseCode() == 200) {
-                InputStream responseBody = myConnection.getInputStream();
-                JSONParser jsonParser = new JSONParser();
-                jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(responseBody, "UTF-8"));
-            } else {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                return true;
             }
             myConnection.disconnect();
-        } catch (MalformedURLException e) {
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-        return jsonObject;
+        }
+        return false;
     }
 
     @Override
@@ -56,8 +65,8 @@ public class PostData extends AsyncTask<String, Integer, JSONObject> {
     }
 
     @Override
-    protected void onPostExecute(JSONObject value) {
-        super.onPostExecute(value);
-        ((AddEmployeesActivity) activity).closeActivity();
+    protected void onPostExecute(Boolean result) {
+        super.onPostExecute(result);
+        ((BaseActivityForAsyncTask) activity).afterSendData(result);
     }
 }

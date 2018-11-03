@@ -3,6 +3,7 @@ package com.selma.constructions.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,7 @@ import com.selma.constructions.model.User;
 
 import org.json.simple.JSONObject;
 
-public class LoginActivity extends BaseActivityForObjects {
+public class LoginActivity extends BaseActivityForAsyncTask {
 
     public static final String CURRENT_USER = "current_user";
     private EditText emailEditText;
@@ -65,9 +66,9 @@ public class LoginActivity extends BaseActivityForObjects {
             progressBar.setVisibility(View.VISIBLE);
             mainLayout.setVisibility(View.GONE);
 
-            String url = "https://www.google.com";  // TODO create the URL
+            String url = "http://www.mocky.io/v2/5bdcbd1b3300006629813691";  // TODO create the URL
             GetDataAsObject getData = new GetDataAsObject(this);
-            getData.execute(url);
+            getData.execute(url, email, password);
 
         }
     }
@@ -94,10 +95,10 @@ public class LoginActivity extends BaseActivityForObjects {
 
 
     @Override
-    public void getDataFromAsyncTask(JSONObject result) {
+    public void getDataAsObject(JSONObject result) {
 
         if (result != null) {
-            if(result.get("id") != null){
+            if(result.get("Id") != null){
 
                 User user = new User();
                 user.setFirstName(result.get("Ime").toString());
@@ -105,7 +106,9 @@ public class LoginActivity extends BaseActivityForObjects {
                 user.setId((Long) result.get("Id"));
                 user.setAddress(result.get("Adresa").toString());
                 user.setPhone(result.get("KontaktTelefon").toString());
-
+                user.setEmail(result.get("Email").toString());
+                user.setBirthDate(result.get("DatumRodjenja").toString());
+                user.setProfession(result.get("StrucnoZanimanje").toString());
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(CURRENT_USER, user);
                 startActivity(intent);

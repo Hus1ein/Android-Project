@@ -1,14 +1,12 @@
 package com.selma.constructions.Fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.InputType;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +15,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.selma.constructions.PostData;
 import com.selma.constructions.R;
 import com.selma.constructions.activity.ProjectActivity;
 import com.selma.constructions.model.Project;
+
+import org.json.simple.JSONObject;
 
 public class ProjectInfoFragment extends Fragment {
 
@@ -29,6 +30,7 @@ public class ProjectInfoFragment extends Fragment {
     private TextView projectStartDate;
     private TextView projectEndDate;
     private TextView projectDescription;
+    private Project currentProject;
 
     public ProjectInfoFragment() {
         // Required empty public constructor
@@ -39,7 +41,7 @@ public class ProjectInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project_info, container, false);
 
-        Project currentProject = (Project) getArguments().getSerializable(ProjectActivity.CURRENT_PROJECT);
+        currentProject = (Project) getArguments().getSerializable(ProjectActivity.CURRENT_PROJECT);
 
         projectName = view.findViewById(R.id.fragment_project_info_name);
         projectLocation = view.findViewById(R.id.fragment_project_info_location);
@@ -81,7 +83,13 @@ public class ProjectInfoFragment extends Fragment {
         builder.setPositiveButton(R.string.main_save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                projectDescription.setText(input.getText().toString() );
+                projectDescription.setText(input.getText().toString());
+                JSONObject data = new JSONObject();
+                data.put("projectId", currentProject.getId());
+                data.put("opisProjekta", input.getText().toString());
+                PostData postData = new PostData((AppCompatActivity) getActivity(), data);
+                String url = "http://www.mocky.io/v2/5bdd58253200005a008c625f";  //TODO: change url.
+                postData.execute(url);
             }
         });
         // 2) cancel:
