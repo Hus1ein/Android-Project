@@ -29,26 +29,34 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddEmployeesActivity extends BaseActivityForAsyncTask implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
+public class AllCompanyEmployeesActivity extends BaseActivityForAsyncTask implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
 
     private List<Long> selectedEmployees;
     private List<Employee> allEmployees;
     private FloatingActionButton addSelectedEmployeesButton;
     private RelativeLayout mainLayout;
     private ProgressBar progressBar;
+    private long currentJobId;
+    public static final String EMPLOYEE = "employee";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_employees);
 
-        selectedEmployees = new ArrayList<>();
+        currentJobId = getIntent().getLongExtra("jobId", -1);
+        if (currentJobId > -1) {
+            getSupportActionBar().setTitle("Dodaj uposlenika");
+            selectedEmployees = new ArrayList<>();
+        } else {
+            getSupportActionBar().setTitle("Sve zaposlane");
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         addSelectedEmployeesButton = findViewById(R.id.activity_add_employees_floating_button);
         mainLayout = findViewById(R.id.activity_add_employees_main_layout);
         progressBar = findViewById(R.id.activity_add_employees_progress_bar);
-
-        getSupportActionBar().setTitle("Dodaj uposlenika");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getAllEmployees();
 
@@ -60,7 +68,7 @@ public class AddEmployeesActivity extends BaseActivityForAsyncTask implements Em
         mainLayout.setVisibility(View.GONE);
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
         String url = "http://www.mocky.io/v2/5bdcc934330000382881369e";  //TODO: change url.
-        getDataAsArray.execute(url, "-1");
+        getDataAsArray.execute(url, "-1"); // id = -1 , Show all employees in company
 
     }
 
@@ -117,43 +125,69 @@ public class AddEmployeesActivity extends BaseActivityForAsyncTask implements Em
 
     public void addEmployees(View view) {
 
-        progressBar.setVisibility(View.VISIBLE);
-        mainLayout.setVisibility(View.GONE);
-        //PostData postData = new PostData(this);
-        String url = "";  //TODO: change url.
-        //postData.execute(url);
+        JSONObject data = new JSONObject();
+        data.put("jobTypeId", currentJobId);
+        data.put("selectedEmployees", selectedEmployees);
+        Log.d("username", data.toString());
+        PostData postData = new PostData(this, data);
+        String url = "http://www.mocky.io/v2/5bdd58253200005a008c625f";  //TODO: change url.
+        postData.execute(url);
 
         finish();
 
-    }
-
-    public void closeActivity() {
-        finish();
     }
 
     @Override
     public void onClick(long selectedEmployeeId, RelativeLayout relativeLayout) {
 
 
+        if (currentJobId > -1) {
 
-        for(Long employeeId : selectedEmployees){
-            if (employeeId == selectedEmployeeId){
-                selectedEmployees.remove(selectedEmployeeId);
-                relativeLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
+            for(Long employeeId : selectedEmployees){
+                if (employeeId == selectedEmployeeId){
+                    selectedEmployees.remove(selectedEmployeeId);
+                    relativeLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
 
-                if (selectedEmployees.size() == 0)
-                    addSelectedEmployeesButton.setVisibility(View.GONE);
-                else
-                    addSelectedEmployeesButton.setVisibility(View.VISIBLE);
-                return;
+                    if (selectedEmployees.size() == 0)
+                        addSelectedEmployeesButton.setVisibility(View.GONE);
+                    else
+                        addSelectedEmployeesButton.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+            }
+            selectedEmployees.add(selectedEmployeeId);
+            relativeLayout.setBackgroundColor(Color.parseColor("#cceeff"));
+            addSelectedEmployeesButton.setVisibility(View.VISIBLE);
+
+        } else {
+
+            for (Employee employee : allEmployees){
+
+                if (employee.getId() == selectedEmployeeId) {
+
+                    Intent intent = new Intent(this, EmployeeActivity.class);
+                    intent.putExtra(EMPLOYEE, employee);
+                    startActivity(intent);
+
+                    break;
+                }
+
             }
 
         }
 
-        selectedEmployees.add(selectedEmployeeId);
-        relativeLayout.setBackgroundColor(Color.parseColor("#cceeff"));
-        addSelectedEmployeesButton.setVisibility(View.VISIBLE);
 
+    }
+
+    @Override
+    public void afterSendData(Boolean result){
+        if (result) {
+            Toast.makeText(this, "updated Successfully", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error while saving", Toast.LENGTH_LONG).show();
+        }
+        finish();
     }
 
     @Override

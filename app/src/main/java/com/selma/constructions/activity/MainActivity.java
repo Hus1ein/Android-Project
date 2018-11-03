@@ -1,5 +1,6 @@
 package com.selma.constructions.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -210,7 +211,7 @@ public class MainActivity extends BaseActivityForAsyncTask {
     }
 
     public void showAllEmployees(View view) {
-
+        startActivity(new Intent(this, AllCompanyEmployeesActivity.class));
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

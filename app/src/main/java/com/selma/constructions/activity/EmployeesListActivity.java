@@ -4,22 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -29,10 +21,7 @@ import com.selma.constructions.GetDataAsArray;
 import com.selma.constructions.PostData;
 import com.selma.constructions.R;
 import com.selma.constructions.adapter.EmployeesListAdapter;
-import com.selma.constructions.adapter.ProjectsAdapter;
 import com.selma.constructions.model.Employee;
-import com.selma.constructions.model.JobTypeRow;
-import com.selma.constructions.model.Project;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -147,7 +136,10 @@ public class EmployeesListActivity extends BaseActivityForAsyncTask implements E
     }
 
     public void addEmployees(View view) {
-        startActivity(new Intent(this, AddEmployeesActivity.class));
+
+        Intent intent = new Intent(this, AllCompanyEmployeesActivity.class);
+        intent.putExtra("jobId", jobTypeId);
+        startActivity(intent);
     }
 
     @Override

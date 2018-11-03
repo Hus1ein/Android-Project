@@ -35,7 +35,7 @@
             android:name=".activity.EmployeeActivity"
             android:parentActivityName="com.selma.constructions.activity.EmployeesListActivity"/>
         <activity
-            android:name=".activity.AddEmployeesActivity"
+            android:name=".activity.AllCompanyEmployeesActivity"
             android:parentActivityName="com.selma.constructions.activity.EmployeesListActivity"/>
     </application>
 
