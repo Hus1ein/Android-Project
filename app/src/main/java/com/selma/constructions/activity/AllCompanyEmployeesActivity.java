@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -29,7 +25,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllCompanyEmployeesActivity extends BaseActivityForAsyncTask implements EmployeesListAdapter.OnEmployeeClick, EmployeesListAdapter.OnWorkHoursTextViewClick{
+public class AllCompanyEmployeesActivity extends BaseActivityForAsyncTask implements EmployeesListAdapter.OnEmployeeClick{
 
     private List<Long> selectedEmployees;
     private List<Employee> allEmployees;
@@ -128,7 +124,6 @@ public class AllCompanyEmployeesActivity extends BaseActivityForAsyncTask implem
         JSONObject data = new JSONObject();
         data.put("jobTypeId", currentJobId);
         data.put("selectedEmployees", selectedEmployees);
-        Log.d("username", data.toString());
         PostData postData = new PostData(this, data);
         String url = "http://www.mocky.io/v2/5bdd58253200005a008c625f";  //TODO: change url.
         postData.execute(url);
@@ -190,8 +185,4 @@ public class AllCompanyEmployeesActivity extends BaseActivityForAsyncTask implem
         finish();
     }
 
-    @Override
-    public void onClickWorkHoursTextView(long employeeId) {
-
-    }
 }

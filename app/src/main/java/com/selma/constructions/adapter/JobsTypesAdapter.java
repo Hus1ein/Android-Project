@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.selma.constructions.R;
-import com.selma.constructions.model.JobType;
 import com.selma.constructions.model.JobTypeRow;
 
 import java.util.List;

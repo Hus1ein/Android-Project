@@ -3,9 +3,6 @@ package com.selma.constructions;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
-
-import com.selma.constructions.activity.BaseActivityForArrays;
 import com.selma.constructions.activity.BaseActivityForAsyncTask;
 
 import org.json.simple.JSONArray;
@@ -16,10 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class GetDataAsArray extends AsyncTask<String, Integer, JSONArray> {
 

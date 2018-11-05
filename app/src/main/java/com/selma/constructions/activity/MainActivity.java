@@ -2,6 +2,7 @@ package com.selma.constructions.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivityForAsyncTask {
     private ProgressBar progressBar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private boolean doubleBackToLogOutPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,24 @@ public class MainActivity extends BaseActivityForAsyncTask {
 
     }
 
+    private void setUserDetails(){
+
+        TextView username = findViewById(R.id.activity_main_user_name);
+        TextView address = findViewById(R.id.activity_main_location);
+        TextView mobileNumber = findViewById(R.id.activity_main_phone_number);
+        TextView profession = findViewById(R.id.activity_main_profession);
+        TextView email = findViewById(R.id.activity_main_email);
+        TextView birthday = findViewById(R.id.activity_main_birthday);
+
+        username.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+        address.setText(currentUser.getAddress());
+        mobileNumber.setText(currentUser.getPhone());
+        profession.setText(currentUser.getProfession());
+        email.setText(currentUser.getEmail());
+        birthday.setText(currentUser.getBirthDate());
+
+    }
+
     private void getAllProjects(){
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
@@ -79,7 +99,7 @@ public class MainActivity extends BaseActivityForAsyncTask {
 
         activeProjects = new ArrayList<>();
         inactiveProjects = new ArrayList<>();
-        Log.d("username", result.toString());
+
         if (result != null) {
             for (int n = 0; n < result.size(); n++) {
 
@@ -148,23 +168,7 @@ public class MainActivity extends BaseActivityForAsyncTask {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void setUserDetails(){
 
-        TextView username = findViewById(R.id.activity_main_user_name);
-        TextView address = findViewById(R.id.activity_main_location);
-        TextView mobileNumber = findViewById(R.id.activity_main_phone_number);
-        TextView profession = findViewById(R.id.activity_main_profession);
-        TextView email = findViewById(R.id.activity_main_email);
-        TextView birthday = findViewById(R.id.activity_main_birthday);
-
-        username.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
-        address.setText(currentUser.getAddress());
-        mobileNumber.setText(currentUser.getPhone());
-        profession.setText(currentUser.getProfession());
-        email.setText(currentUser.getEmail());
-        birthday.setText(currentUser.getBirthDate());
-
-    }
 
 
     @Override
@@ -181,7 +185,6 @@ public class MainActivity extends BaseActivityForAsyncTask {
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    // This function will be call when we call onDrawerClosed or onDrawerOpen.
     @Override
     public boolean onPrepareOptionsMenu(Menu menu)
     {
@@ -241,5 +244,24 @@ public class MainActivity extends BaseActivityForAsyncTask {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToLogOutPressedOnce) {
+            super.onBackPressed();
+            finish();
+            return;
+        }
+
+        this.doubleBackToLogOutPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to Log out", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToLogOutPressedOnce=false;
+            }
+        }, 2000);
     }
 }

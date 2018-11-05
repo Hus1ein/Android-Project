@@ -49,16 +49,16 @@ public class ProjectActivity extends BaseActivityForAsyncTask {
         mainLayout = findViewById(R.id.activity_project_main_linear_layout);
         progressBar = findViewById(R.id.activity_project_progress_bar);
 
-        getAllJobsTypes(currentProject.getId());
+        getAllJobsTypes();
 
     }
 
-    private void getAllJobsTypes(long projectId){
+    private void getAllJobsTypes(){
 
         progressBar.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
         GetDataAsArray getDataAsArray = new GetDataAsArray(this);
-        String url = "http://www.mocky.io/v2/5bdcc2e93300003828813696";  //TODO: create url.
+        String url = "http://www.mocky.io/v2/5bdcc2e93300003828813696";  //TODO: change url.
         getDataAsArray.execute(url, currentProject.getId() + "");
 
     }
@@ -128,7 +128,7 @@ public class ProjectActivity extends BaseActivityForAsyncTask {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                super.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);

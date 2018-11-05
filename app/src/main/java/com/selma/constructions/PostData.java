@@ -15,7 +15,6 @@ import java.net.URL;
 
 public class PostData extends AsyncTask<String, Integer, Boolean> {
 
-    //private String value;
     private AppCompatActivity activity;
     private JSONObject postData;
 
@@ -28,7 +27,6 @@ public class PostData extends AsyncTask<String, Integer, Boolean> {
     @Override
     protected Boolean doInBackground(String... strings) {
 
-        JSONObject jsonObject = null;
         URL url = null;
         try {
             url = new URL(strings[0]);

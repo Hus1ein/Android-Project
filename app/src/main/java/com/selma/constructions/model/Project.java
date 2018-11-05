@@ -19,10 +19,6 @@ public class Project implements Serializable {
     private String endProjectDate;
     @SerializedName("status")
     private boolean status;  // data type will be boolean
-    @SerializedName("InvestitorId")
-    private long investorId;
-    @SerializedName("Investitor")
-    private Investor investor;
     @SerializedName("KorisnikId")
     private long userId;
     @SerializedName("Korisnik")
@@ -95,22 +91,6 @@ public class Project implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public long getInvestorId() {
-        return investorId;
-    }
-
-    public void setInvestorId(long investorId) {
-        this.investorId = investorId;
-    }
-
-    public Investor getInvestor() {
-        return investor;
-    }
-
-    public void setInvestor(Investor investor) {
-        this.investor = investor;
     }
 
     public long getUserId() {

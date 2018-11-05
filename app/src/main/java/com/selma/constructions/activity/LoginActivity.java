@@ -55,6 +55,13 @@ public class LoginActivity extends BaseActivityForAsyncTask {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        emailEditText.setText("");
+        passwordEditText.setText("");
+    }
+
 
     private void validateCredentials() {
 
@@ -109,6 +116,10 @@ public class LoginActivity extends BaseActivityForAsyncTask {
                 user.setEmail(result.get("Email").toString());
                 user.setBirthDate(result.get("DatumRodjenja").toString());
                 user.setProfession(result.get("StrucnoZanimanje").toString());
+
+                progressBar.setVisibility(View.GONE);
+                mainLayout.setVisibility(View.VISIBLE);
+
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(CURRENT_USER, user);
                 startActivity(intent);

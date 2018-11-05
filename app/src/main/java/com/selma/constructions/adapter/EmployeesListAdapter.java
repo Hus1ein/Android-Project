@@ -34,7 +34,6 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
     @Override
     public void onBindViewHolder(EmployeesListAdapter.MyHolder holder, final int position) {
-        Log.d("username", employees.get(position).getWorkHours() + "");
         holder.employeeName.setText(employees.get(position).getName());
         holder.employeePhoneNum.setText(employees.get(position).getPhone());
         if (showWorkHours){

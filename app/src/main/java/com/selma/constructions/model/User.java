@@ -29,10 +29,6 @@ public class User implements Serializable {
     private String phone;
     @SerializedName("ProjektnaDokumentacijaId")
     private long projectDocumentationId;
-    @SerializedName("ProjektnaDokumentacija ")
-    private ProjectDocumentation projectDocumentation;
-    @SerializedName("TehnickiOpisId")
-    private TechnicalDescription technicalDescription;
 
     public long getProjectDocumentationId() {
         return projectDocumentationId;
@@ -40,22 +36,6 @@ public class User implements Serializable {
 
     public void setProjectDocumentationId(long projectDocumentationId) {
         this.projectDocumentationId = projectDocumentationId;
-    }
-
-    public ProjectDocumentation getProjectDocumentation() {
-        return projectDocumentation;
-    }
-
-    public void setProjectDocumentation(ProjectDocumentation projectDocumentation) {
-        this.projectDocumentation = projectDocumentation;
-    }
-
-    public TechnicalDescription getTechnicalDescription() {
-        return technicalDescription;
-    }
-
-    public void setTechnicalDescription(TechnicalDescription technicalDescription) {
-        this.technicalDescription = technicalDescription;
     }
 
     public long getId() {

@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -51,6 +52,11 @@ public class EmployeesListActivity extends BaseActivityForAsyncTask implements E
         mainLayout = findViewById(R.id.activity_employees_list_main_layout);
         progressBar = findViewById(R.id.activity_employees_list_progress_bar);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         getAllEmployees();
     }
 

@@ -3,11 +3,8 @@ package com.selma.constructions;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.selma.constructions.activity.BaseActivityForAsyncTask;
-import com.selma.constructions.activity.BaseActivityForObjects;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class GetDataAsObject extends AsyncTask<String, Integer, JSONObject> {
 
